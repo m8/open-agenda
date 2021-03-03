@@ -15,6 +15,12 @@
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
     <!-- CSS only -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.15.1/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.7.14/js/bootstrap-datetimepicker.min.js"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.7.14/css/bootstrap-datetimepicker.min.css">
+
 
 </head>
 <body>
@@ -56,8 +62,9 @@
       
           <!-- Main component for a primary marketing message or call to action -->
           <div class="jumbotron">
-            <h1>Date: </h1>
-            <textarea id="notes" name="notes" cols="30" rows="10"></textarea>
+            <h1>Date:</h1>
+              <textarea id="notes" name="notes" cols="30" rows="10" >{{ notes.0 }}</textarea>
+    
           </div>
           <button class="btn btn-success"><i class="fas fa-save"></i> Save</button>
         </div>
