@@ -61,15 +61,28 @@
         });
 
 
-        
-
-
         $.ajaxSetup({
             headers:
             { 'X-CSRF-TOKEN': $("[name='csrfmiddlewaretoken']").val() }
         });
+        
+        
+        $(function ()
+        {
+            $(document).on("keydown", function(e)
+            {
+                if ((e.keyCode == 10 || e.keyCode == 13) && e.ctrlKey)
+                {
+                    createRequest();
+                }
+            });
+        });
 
         $("#update-btn").on("click", function () {
+            createRequest()
+        });
+
+        function createRequest(){
             var request;
 
             request = $.ajax({
@@ -95,10 +108,11 @@
                 }
             });
 
+
             request.fail(function(jqXHR, textStatus) {
                 $("#result").html("Request failed: " + textStatus);
             });
-        });
+        }
     </script>
 </body>
 </html>
