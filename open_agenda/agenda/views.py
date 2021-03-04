@@ -4,6 +4,7 @@ from django.http import HttpResponse
 
 # Create your views here.
 from datetime import date
+import datetime
 
 def index(req):
     today = date.today().strftime("%Y-%m-%d")
@@ -27,7 +28,8 @@ def updateAgenda(req):
 
     return HttpResponse(200)
 
-def getDate(req):
+# @ get /get-date
+def GetDate(req):
     req_date = req.GET.get('date', '')
     note = Notes.objects.filter(pub_date=req_date)
 
@@ -37,3 +39,18 @@ def getDate(req):
         return render(req,'agenda.html', context={"notes":note})
     else:
         return render(req,'agenda.html', context={"notes":note[0]})
+    
+# @ get /weekly
+def Weekly(req):
+    today = date.today().strftime("%Y-%m-%d")
+    days_of_the_week = get_week(today)
+    print(days_of_the_week)
+    return render(req,'weekly.html',context={"days":days_of_the_week})
+
+
+
+def get_week(dt):
+    week_day= datetime.datetime.now().isocalendar()[2]
+    start_date= datetime.datetime.now() - datetime.timedelta(days=week_day)
+    dates=[str((start_date + datetime.timedelta(days=i)).date()) for i in range(7)]
+    return(dates)
