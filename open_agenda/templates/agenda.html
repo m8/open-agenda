@@ -35,6 +35,10 @@
           
             <div class="jumbotron">
               <h2>{{ notes.pub_date }}</h2>
+              <div class="d-flex justify-content-between pb-3">
+                  <a id="{{ dates.1 }}" class="btn btn-warning" onclick="changedate(this.id)"><i class="fa fa-arrow-left"></i> Yesterday </a>
+                  <a id="{{ dates.0 }}" class="btn btn-warning" onclick="changedate(this.id)">Tomorrow <i class="fa fa-arrow-right"></i></a>
+              </div>
               <textarea id="notes" name="notes" cols="30" rows="10" >{{ notes.notes }}</textarea>
             </div>
             
@@ -77,6 +81,10 @@
                 }
             });
         });
+
+        function changedate(date){
+            window.location.href = `/get/?date=${date}`;
+        }
 
         $("#update-btn").on("click", function () {
             createRequest()
