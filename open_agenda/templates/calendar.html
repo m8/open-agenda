@@ -1,0 +1,76 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Open Agenda</title>
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap" rel="stylesheet"> 
+
+    <link rel="stylesheet" href="{% static 'css/style.css'%}">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+    <!-- CSS only -->
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/css/bootstrap-datepicker.min.css" rel="stylesheet"/>
+    {% csrf_token %}
+
+</head>
+<body>
+    
+    {% include "blocks/navbar.html" %}
+
+      
+      <div class="content-container">
+        <div class="container-fluid">
+            <h2 class="m-2 mb-4">Choose Date</h2>
+            <input id="datepicker" class="datepicker" data-date-format="dd/mm/yyyy" placeholder="05-03-2020">
+          </div>
+      </div>
+
+    <!-- JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js" integrity="sha512-T/tUfKSV1bihCnd+MxKD0Hm1uBBroVYBOYSk1knyvQ9VyZJpc/ALb4P0r6ubwVPSGB2GvjeoMAJJImBG12TiaQ==" crossorigin="anonymous"></script>
+    <script>
+
+        var widthPerDay = window.innerWidth / 12; 
+        var heightPerDay = window.innerHeight / 12;
+
+        $('#datepicker').datepicker({
+            format:'dd-mm-yyyy',
+        }).datepicker("setDate",'now');
+
+        
+        $('#datepicker').on('changeDate', function() {
+            changedate($('#datepicker').datepicker('getFormattedDate'))
+        });
+
+        $('.datepicker').datepicker({
+            container:'body',
+            orientation:'auto bottom',
+            format:"mm-dd-yyyy",
+            language: "tr"
+        }).on('show',function(){ 
+            $('.dropdown-menu').addClass('overlay'); // to position the datepicker, or just do it here
+            $('.datepicker td').css( {"width":widthPerDay,"height":heightPerDay } ); // change the size of day elements to make the datepicker table resize.
+            $('.datepicker th').css( {"width":widthPerDay,"height":heightPerDay } );  
+        });
+
+        $('.datepicker').datepicker('show');
+        
+       
+        function changedate(date){
+            window.location.href = `/get/?date=${date}`;
+        }
+
+
+    </script>
+</body>
+</html>
