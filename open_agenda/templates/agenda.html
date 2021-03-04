@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Open Agenda</title>
     <link href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap" rel="stylesheet"> 
 
     <link rel="stylesheet" href="{% static 'css/style.css'%}">
@@ -20,7 +20,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.7.14/js/bootstrap-datetimepicker.min.js"></script>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.7.14/css/bootstrap-datetimepicker.min.css">
-
+    {% csrf_token %}
 
 </head>
 <body>
@@ -52,6 +52,12 @@
               <i class="fa fa-users" aria-hidden="true"></i> Friends
             </a>
           </li>
+
+          <li>
+            <a class="font-weight-light" href="#">
+              <i class="fa fa-plus" aria-hidden="true"></i> Add Project
+            </a>
+          </li>
         
         </ul>
       </div>
@@ -61,22 +67,55 @@
         <div class="container-fluid">
       
           <!-- Main component for a primary marketing message or call to action -->
-          <div class="jumbotron">
-            <h1>Date:</h1>
-              <textarea id="notes" name="notes" cols="30" rows="10" >{{ notes.0 }}</textarea>
-    
+          
+            <div class="jumbotron">
+              <h2>{{ notes.pub_date }}</h2>
+              <textarea id="notes" name="notes" cols="30" rows="10" >{{ notes.notes }}</textarea>
+            </div>
+            
+            <button id="update-btn" class="btn btn-success"><i class="fas fa-save"></i> Save</button>
           </div>
-          <button class="btn btn-success"><i class="fas fa-save"></i> Save</button>
-        </div>
       </div>
 
     <!-- JavaScript Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
     <script>
+
+        let current_date = "{{notes.pub_date}}";
+
         var simplemde = new SimpleMDE({ 
             element: document.getElementById("notes"),
             spellChecker: false
+        });
+
+        $.ajaxSetup({
+            headers:
+            { 'X-CSRF-TOKEN': $("[name='csrfmiddlewaretoken']").val() }
+        });
+
+        $("#update-btn").on("click", function () {
+            var request;
+
+            request = $.ajax({
+                url: "/update/",
+                method: "POST",
+                data:
+                {
+                    date: current_date,
+                    notes: simplemde.value(),
+                    csrfmiddlewaretoken: $("[name='csrfmiddlewaretoken']").val(),
+                },
+                datatype: "json"
+            });
+
+            request.done(function(msg) {
+                $("#result").html(msg);
+            });
+
+            request.fail(function(jqXHR, textStatus) {
+                $("#result").html("Request failed: " + textStatus);
+            });
         });
     </script>
 </body>
