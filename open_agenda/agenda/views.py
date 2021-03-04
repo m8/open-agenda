@@ -26,7 +26,7 @@ def updateAgenda(req):
         defaults={'notes': notes, 'pub_date': date},
     )
 
-    return HttpResponse(200)
+    return HttpResponse("success")
 
 # @ get /get-date
 def GetDate(req):
@@ -46,6 +46,9 @@ def Weekly(req):
     days_of_the_week = get_week(today)
     print(days_of_the_week)
     return render(req,'weekly.html',context={"days":days_of_the_week})
+
+def Calendar(req):
+    return render(req,'calendar.html')
 
 
 
