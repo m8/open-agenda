@@ -7,7 +7,7 @@ from datetime import date
 import datetime
 
 def index(req):
-    today = date.today().strftime("%Y-%m-%d")
+    today = date.today().strftime("%d-%m-%Y")
     todays_note = Notes.objects.filter(pub_date=today)
     if(todays_note.count() == 0):
         note = Notes()
@@ -42,7 +42,7 @@ def GetDate(req):
     
 # @ get /weekly
 def Weekly(req):
-    today = date.today().strftime("%Y-%m-%d")
+    today = date.today().strftime("%d-%m-%Y")
     days_of_the_week = get_week(today)
     print(days_of_the_week)
     return render(req,'weekly.html',context={"days":days_of_the_week})
@@ -52,5 +52,5 @@ def Weekly(req):
 def get_week(dt):
     week_day= datetime.datetime.now().isocalendar()[2]
     start_date= datetime.datetime.now() - datetime.timedelta(days=week_day)
-    dates=[str((start_date + datetime.timedelta(days=i)).date()) for i in range(7)]
+    dates=[str((start_date + datetime.timedelta(days=i)).date().strftime("%d-%m-%Y")) for i in range(7)]
     return(dates)

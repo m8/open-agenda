@@ -10,3 +10,5 @@ Pipfile.lock
 Pipfile
 
 .vscode
+open_agenda/agenda/migrations/0002_auto_20210303_2053.py
+open_agenda/agenda/views.py
