@@ -6,5 +6,6 @@ app_name = 'agenda'
 
 urlpatterns = [
     path('',views.index, name='index'),
-    path(r'update/',views.updateAgenda)
+    path(r'update/',views.updateAgenda),
+    path(r'get/', views.getDate)
 ]
