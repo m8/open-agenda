@@ -70,6 +70,7 @@ def Calendar(req):
 
 def get_week(dt):
     week_day= datetime.datetime.now().isocalendar()[2]
-    start_date= datetime.datetime.now() - datetime.timedelta(days=week_day)
+    start_date= datetime.datetime.now() - datetime.timedelta(days=week_day) + datetime.timedelta(days=1)
     dates=[str((start_date + datetime.timedelta(days=i)).date().strftime("%d-%m-%Y")) for i in range(7)]
-    return(dates)
+    day_names=[str((start_date + datetime.timedelta(days=i)).date().strftime("%A")) for i in range(7)]
+    return(zip(dates,day_names))
