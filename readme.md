@@ -5,9 +5,19 @@ Simple markdown agenda for taking notes. Simple and easy to configure. Written w
 - Take note with markdown
 - Weekly view and date picking
 
-## To-Do
-- [] Projects
-
 ![Agenda 1](images/2021-03-05-14-46-55.png)
 ![Agenda 2](images/2021-03-05-14-47-10.png)
 ![Agenda 3](images/2021-03-05-14-47-32.png)
+
+
+## To-Do
+- [] Projects
+
+## Installation
+```shell
+git clone https://github.com/m8/open-agenda
+cd open-agenda
+pip3 install pipenv
+pipenv shell
+python3 open-agenda/manage.py runserver
+```
