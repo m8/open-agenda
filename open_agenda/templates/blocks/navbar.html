@@ -1,6 +1,8 @@
 <div class="sidebar-container">
     <div class="sidebar-logo">
-      <i class="fa fa-calendar"></i> Open Agenda
+      <a href="/" style="text-decoration: none; color: white;">
+        <i class="fa fa-calendar"></i> Open Agenda
+      </a>
     </div>
     <ul class="sidebar-navigation">
       <li class="header">Calendar</li>
@@ -20,17 +22,19 @@
         </a>
       </li>
       <li class="header">Projects</li>
+
+      {% for q in projects %} 
       <li>
-        <a href="#">
-          <i class="fa fa-users" aria-hidden="true"></i> Friends
+        <a class="font-weight-light" href="/get?project={{q.id}}">
+          <i class="fa fa-{{q.icon}}" aria-hidden="true"> </i>  {{q.name}}
         </a>
       </li>
+      {% endfor %}
 
       <li>
-        <a class="font-weight-light" href="">
+        <a class="font-weight-light" id="add-project">
           <i class="fa fa-plus" aria-hidden="true"></i> Add Project
         </a>
       </li>
-    
     </ul>
 </div>

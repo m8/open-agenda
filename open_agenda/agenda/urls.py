@@ -9,5 +9,6 @@ urlpatterns = [
     path(r'update/',views.updateAgenda),
     path(r'get/', views.GetDate),
     path(r'weekly/', views.Weekly),
-    path(r'calendar/', views.Calendar)
+    path(r'calendar/', views.Calendar),
+    path(r'add-project/',views.AddProject),
 ]
