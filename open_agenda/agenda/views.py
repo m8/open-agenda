@@ -14,11 +14,18 @@ def index(req):
 def updateAgenda(req):
     date = req.POST.get('date','')
     notes = req.POST.get('notes','')
+    project_id = req.POST.get('project_id','')
+    
+    if(len(project_id)>0):
+        project = Project.objects.get(id=project_id)
+        project.notes = notes
+        project.save()
 
-    Notes.objects.update_or_create(
-        pub_date = date,
-        defaults={'notes': notes, 'pub_date': date},
-    )
+    else:
+        Notes.objects.update_or_create(
+            pub_date = date,
+            defaults={'notes': notes, 'pub_date': date},
+        )
 
     return HttpResponse("success")
 

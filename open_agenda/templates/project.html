@@ -121,9 +121,6 @@
             });
         });
 
-        function changedate(date) {
-            window.location.href = `/get/?date=${date}`;
-        }
 
         $("#update-btn").on("click", function () {
             createRequest()
@@ -137,8 +134,8 @@
                 method: "POST",
                 data:
                 {
-                    date: current_date,
                     notes: simplemde.value(),
+                    project_id: "{{ notes.id }}",
                     csrfmiddlewaretoken: $("[name='csrfmiddlewaretoken']").val(),
                 },
                 datatype: "json"
