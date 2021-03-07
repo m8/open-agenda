@@ -11,4 +11,5 @@ urlpatterns = [
     path(r'weekly/', views.Weekly),
     path(r'calendar/', views.Calendar),
     path(r'add-project/',views.AddProject),
+    path(r'delete/',views.Delete)
 ]

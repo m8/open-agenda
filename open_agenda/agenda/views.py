@@ -90,7 +90,14 @@ def AddProject(req):
 
     return redirect('/')
 
-
+def Delete(req):
+    project_id = req.GET.get('project', '')
+    try:
+        project = Project.objects.get(id=project_id)
+        project.delete()
+        return redirect('/')
+    except:
+        return redirect('/')
 
 def get_week(dt):
     week_day= datetime.datetime.now().isocalendar()[2]
