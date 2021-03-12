@@ -2,12 +2,14 @@ from django.shortcuts import render,redirect
 from .models import Notes,Project
 from django.http import HttpResponse
 from django.core.exceptions import ObjectDoesNotExist
-# Create your views here.
+
 from datetime import date
 import datetime
 
 def index(req):
-    today = date.today().strftime("%d-%m-%Y")
+    # Add UTC+3 for timezone
+    utc_converted = date.today() + datetime.timedelta(hours=3)
+    today = utc_converted.today().strftime("%d-%m-%Y")
     return redirect('/get?date='+today)
 
 # @ post /update
