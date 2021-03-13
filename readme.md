@@ -4,6 +4,7 @@ Simple markdown agenda for taking notes. Simple and easy to configure. Written w
 ## Features
 - Take note with markdown
 - Weekly view and date picking
+- Add project
 
 ![Agenda 1](images/2021-03-05-14-46-55.png)
 ![Agenda 2](images/2021-03-05-14-47-10.png)
@@ -11,7 +12,9 @@ Simple markdown agenda for taking notes. Simple and easy to configure. Written w
 
 
 ## To-Do
-- [] Projects
+- [x] Projects
+- [ ] Settings Page
+- [ ] Export agenda
 
 ## Installation
 ```shell
