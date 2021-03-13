@@ -6,9 +6,12 @@ from django.core.exceptions import ObjectDoesNotExist
 from datetime import date
 import datetime
 
+# UTC Timezone + 3
+timezone = 3
+
+
 def index(req):
-    # Add UTC+3 for timezone
-    utc_converted = date.today() + datetime.timedelta(hours=3)
+    utc_converted = datetime.datetime.now() +  datetime.timedelta(hours=timezone)
     today = utc_converted.today().strftime("%d-%m-%Y")
     return redirect('/get?date='+today)
 
