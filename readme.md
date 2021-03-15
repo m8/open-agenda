@@ -10,17 +10,18 @@ Simple markdown agenda for taking notes. Simple and easy to configure. Written w
 ![Agenda 2](images/2021-03-05-14-47-10.png)
 ![Agenda 3](images/2021-03-05-14-47-32.png)
 
+## Requirements
+- Django
+
+## Installation
+```shell
+git clone https://github.com/m8/open-agenda
+cd open-agenda
+python3 open-agenda/manage.py runserver
+```
 
 ## To-Do
 - [x] Projects
 - [ ] Settings Page
 - [ ] Export agenda
 
-## Installation
-```shell
-git clone https://github.com/m8/open-agenda
-cd open-agenda
-pip3 install pipenv
-pipenv shell
-python3 open-agenda/manage.py runserver
-```
