@@ -1,40 +1,48 @@
 <div class="sidebar-container">
-    <div class="sidebar-logo">
-      <a href="/" style="text-decoration: none; color: white;">
-        <i class="fa fa-calendar"></i> Open Agenda
+  <div class="sidebar-logo">
+    <a href="/" style="text-decoration: none; color: white;">
+      <i class="fa fa-calendar"></i> Open Agenda
+    </a>
+  </div>
+  <ul class="sidebar-navigation">
+    <li class="header">Calendar</li>
+    <li>
+      <a href="/">
+        <i class="fa fa-check" aria-hidden="true"></i> Today
       </a>
-    </div>
-    <ul class="sidebar-navigation">
-      <li class="header">Calendar</li>
-      <li>
-        <a href="/">
-          <i class="fa fa-check" aria-hidden="true"></i> Today
-        </a>
-      </li>
-      <li>
-        <a href="/weekly">
-          <i class="fa fa-calendar" aria-hidden="true"></i> Week
-        </a>
-      </li>
-      <li>
-        <a href="/calendar">
-          <i class="fa fa-table" aria-hidden="true"></i> Date Picker
-        </a>
-      </li>
-      <li class="header">Projects</li>
+    </li>
+    <li>
+      <a href="/weekly">
+        <i class="fa fa-calendar" aria-hidden="true"></i> Week
+      </a>
+    </li>
+    <li>
+      <a href="/calendar">
+        <i class="fa fa-table" aria-hidden="true"></i> Date Picker
+      </a>
+    </li>
+    <li class="header">Projects</li>
 
-      {% for q in projects %} 
-      <li>
-        <a class="font-weight-light" href="/get?project={{q.id}}">
-          <i class="fa fa-{{q.icon}}" aria-hidden="true"> </i>  {{q.name}}
-        </a>
-      </li>
-      {% endfor %}
+    {% for q in projects %}
+    <li>
+      <a class="font-weight-light" href="/get?project={{q.id}}">
+        <i class="fa fa-{{q.icon}}" aria-hidden="true"> </i> {{q.name}}
+      </a>
+    </li>
+    {% endfor %}
 
-      <li>
-        <a class="font-weight-light" id="add-project">
-          <i class="fa fa-plus" aria-hidden="true"></i> Add Project
-        </a>
-      </li>
-    </ul>
+    <li>
+      <a class="font-weight-light" id="add-project">
+        <i class="fa fa-plus" aria-hidden="true"></i> Add Project
+      </a>
+    </li>
+  </ul>
+
+
+
+  <li class="sidebar-bottom">
+    <a href="/settings">Settings</a> 
+    |
+    <a href="/settings">Updates</a> 
+  </li>
 </div>

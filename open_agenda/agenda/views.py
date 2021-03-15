@@ -103,6 +103,10 @@ def Delete(req):
     except:
         return redirect('/')
 
+def Settings(req):
+    return render(req,'settings.html',context={})
+
+
 def get_week(dt):
     week_day= datetime.datetime.now().isocalendar()[2]
     start_date= datetime.datetime.now() - datetime.timedelta(days=week_day) + datetime.timedelta(days=1)

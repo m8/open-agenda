@@ -64,3 +64,15 @@ body{
     padding-left: 220px;
   }
 
+  .sidebar-bottom{
+    padding: 20px 20px 0px 30px;
+    font-weight: 300;
+    font-size: small;
+    bottom: 20px;
+    position: absolute;
+   
+  }
+  .sidebar-container a{
+    text-decoration: none;
+    color: white;
+  }
