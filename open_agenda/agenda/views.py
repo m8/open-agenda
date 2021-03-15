@@ -9,10 +9,9 @@ import datetime
 # UTC Timezone + 3
 timezone = 3
 
-
 def index(req):
     utc_converted = datetime.datetime.now() +  datetime.timedelta(hours=timezone)
-    today = utc_converted.today().strftime("%d-%m-%Y")
+    today = utc_converted.strftime("%d-%m-%Y")
     return redirect('/get?date='+today)
 
 # @ post /update
