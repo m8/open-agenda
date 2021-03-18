@@ -104,7 +104,7 @@ def Delete(req):
         return redirect('/')
 
 def Settings(req):
-    return render(req,'settings.html',context={})
+    return render(req,'settings.html',context={"projects": projects})
 
 
 def get_week(dt):

@@ -13,5 +13,4 @@ urlpatterns = [
     path(r'add-project/',views.AddProject),
     path(r'delete/',views.Delete),
     path(r'settings/',views.Settings)
-    
 ]
