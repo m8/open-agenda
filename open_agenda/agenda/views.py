@@ -1,11 +1,15 @@
+import io
+
 from django.shortcuts import render,redirect
 from .models import Notes,Project
-from django.http import HttpResponse
+from django.http import HttpResponse, FileResponse, JsonResponse
 from django.core.exceptions import ObjectDoesNotExist
 
 from datetime import date
 import datetime
+from reportlab.pdfgen import canvas
 
+from django.core import serializers
 # UTC Timezone + 3
 timezone = 3
 
@@ -104,7 +108,7 @@ def Delete(req):
         return redirect('/')
 
 def Settings(req):
-    return render(req,'settings.html',context={"projects": projects})
+    return render(req,'settings.html',context={})
 
 
 def get_week(dt):
@@ -114,4 +118,28 @@ def get_week(dt):
     day_names=[str((start_date + datetime.timedelta(days=i)).date().strftime("%A")) for i in range(7)]
     return(zip(dates,day_names))
 
+def Generate(req):
+    projects = Project.objects.all()
+    for k in projects:
+        print("asd")
+    buffer = io.BytesIO()
 
+    # Create the PDF object, using the buffer as its "file."
+    p = canvas.Canvas(buffer)
+
+    # Draw things on the PDF. Here's where the PDF generation happens.
+    # See the ReportLab documentation for the full list of functionality.
+    p.drawString(100, 100, "HelHello world.Hello world.Hello world.Hello world.Hello world.Hello world.Hello world.Hello world.lo world.Hello world.Hello world.Hello world.")
+
+    # Close the PDF object cleanly, and we're done.
+    p.showPage()
+    p.save()
+
+    # FileResponse sets the Content-Disposition header so that browsers
+    # present the option to save the file.
+    buffer.seek(0)
+    return FileResponse(buffer, as_attachment=True, filename='hello.pdf')
+
+def DownloadNotes(req):
+    data = serializers.serialize('json', Notes.objects.all())
+    return HttpResponse(data, content_type='application/json')

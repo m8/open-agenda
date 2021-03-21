@@ -12,5 +12,7 @@ urlpatterns = [
     path(r'calendar/', views.Calendar),
     path(r'add-project/',views.AddProject),
     path(r'delete/',views.Delete),
-    path(r'settings/',views.Settings)
+    path(r'settings/',views.Settings),
+    path(r'generate-report/', views.Generate),
+    path(r'download-notes/',views.DownloadNotes)
 ]
