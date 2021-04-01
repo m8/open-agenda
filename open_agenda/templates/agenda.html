@@ -21,7 +21,7 @@
             <!-- Main component for a primary marketing message or call to action -->
 
             <div class="jumbotron">
-                <h2>{{ notes.pub_date }} | <span id="day"></span></h2> 
+                    <h2>{{ notes.pub_date }} | <span id="day"></span></h2> 
                 <div class="d-flex justify-content-between pb-3">
                     <a id="{{ dates.1 }}" class="btn btn-warning" onclick="changedate(this.id)"><i
                             class="fa fa-arrow-left"></i> Yesterday </a>
@@ -92,8 +92,10 @@
             var date = new Date(dateStr);
             return date.toLocaleDateString(locale, { weekday: 'long' });        
         }
-
-        var dateStr = '{{ notes.pub_date }}'.replace('-','/');
+        
+        let date1 = '{{ notes.pub_date }}'.split('-');
+        date1 = date1[1]+ '/' + date1[0] + '/' + date1[2];
+        var dateStr = date1;
 
         $( document ).ready(function() {
             var day = getDayName(dateStr, "tr-TR");
