@@ -21,7 +21,7 @@
             <!-- Main component for a primary marketing message or call to action -->
 
             <div class="jumbotron">
-                <h2>{{ notes.pub_date }}</h2>
+                <h2>{{ notes.pub_date }} | <span id="day"></span></h2> 
                 <div class="d-flex justify-content-between pb-3">
                     <a id="{{ dates.1 }}" class="btn btn-warning" onclick="changedate(this.id)"><i
                             class="fa fa-arrow-left"></i> Yesterday </a>
@@ -86,6 +86,21 @@
             createRequest()
         });
 
+
+        function getDayName(dateStr, locale)
+        {
+            var date = new Date(dateStr);
+            return date.toLocaleDateString(locale, { weekday: 'long' });        
+        }
+
+        var dateStr = '{{ notes.pub_date }}'.replace('-','/');
+
+        $( document ).ready(function() {
+            var day = getDayName(dateStr, "tr-TR");
+            $("#day").text(day);            
+        });
+
+
         function createRequest() {
             var request;
 
@@ -116,6 +131,8 @@
             request.fail(function (jqXHR, textStatus) {
                 $("#result").html("Request failed: " + textStatus);
             });
+
+          
         }
     </script>
 </body>
