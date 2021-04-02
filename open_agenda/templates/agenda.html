@@ -52,7 +52,7 @@
 
         $("#success-alert").hide();
 
-        let current_date = "{{ notes.pub_date | date:"Y-m-d"}}"
+        let current_date = "{{ dates.2 |date:"Y-m-d"}}"
 
         var simplemde = new SimpleMDE({
             element: document.getElementById("notes"),
