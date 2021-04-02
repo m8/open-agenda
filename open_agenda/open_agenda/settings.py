@@ -123,3 +123,4 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 ]
 
+DATE_INPUT_FORMATS = ['%d-%m-%Y']

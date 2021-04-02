@@ -10,6 +10,7 @@ import datetime
 from reportlab.pdfgen import canvas
 
 from django.core import serializers
+import json
 # UTC Timezone + 3
 timezone = 3
 
@@ -22,7 +23,7 @@ def updateAgenda(req):
     date = datetime.datetime.strptime(req.POST.get('date',''), '%Y-%m-%d')
     notes = req.POST.get('notes','')
     project_id = req.POST.get('project_id','')
-    
+    print("update request date:" , date)
     if(len(project_id)>0):
         project = Project.objects.get(id=project_id)
         project.notes = notes
@@ -88,17 +89,26 @@ def Calendar(req):
 
 
 def CalendarSource(req):
-    start_date = dateModifier(req.GET.get('start', ''))
-    end_date = dateModifier(req.GET.get('end',''))
+    start_date = datetime.datetime.strptime(req.GET.get('start', '').split('T')[0],'%Y-%m-%d')
+    end_date =  datetime.datetime.strptime(req.GET.get('end','').split('T')[0],'%Y-%m-%d')
+    print(start_date)
     
     notes = Notes.objects.filter(pub_date__range=(start_date,end_date))
     print(len(notes))
+    response_obj = []
     for k in notes:
-        print(k.notes)
-    print(notes)
+        for l in k.notes.splitlines():
+            if(l.startswith('!!')):
+                response_data = {}
+                response_data['title'] = l[2:]
+                response_data['start'] = k.pub_date.strftime("%Y-%m-%d")
+                response_data['end'] = k.pub_date.strftime("%Y-%m-%d")
+                response_obj.append(response_data)
+
+    print(response_obj)
     print(start_date)
     print(end_date)
-    return HttpResponse(1)
+    return HttpResponse(json.dumps(response_obj),content_type="application/json")
 
 
 
