@@ -15,12 +15,11 @@ timezone = 3
 
 def index(req):
     utc_converted = datetime.datetime.now() +  datetime.timedelta(hours=timezone)
-    today = utc_converted.strftime("%d-%m-%Y")
-    return redirect('/get?date='+today)
+    return redirect('/get?date='+utc_converted.strftime("%Y-%m-%d"))
 
 # @ post /update
 def updateAgenda(req):
-    date = req.POST.get('date','')
+    date = datetime.datetime.strptime(req.POST.get('date',''), '%Y-%m-%d')
     notes = req.POST.get('notes','')
     project_id = req.POST.get('project_id','')
     
@@ -45,24 +44,23 @@ def GetDate(req):
     print(len(req_date),len(req_project))
     projects = Project.objects.all()
     
+    print("req date",req_date)
+
     if(len(req_date)>0):
         note = Notes.objects.filter(pub_date=req_date)
 
-        formatted_date = datetime.datetime.strptime(req_date, '%d-%m-%Y')
+        today = datetime.datetime.strptime(req_date, '%Y-%m-%d')
 
-        yesterday = formatted_date + datetime.timedelta(days=-1)
-        yesterday = yesterday.strftime("%d-%m-%Y")
+        yesterday = (today + datetime.timedelta(days=-1)).strftime("%Y-%m-%d")
 
-        tomorrow = formatted_date + datetime.timedelta(days=1)
-        tomorrow = tomorrow.strftime("%d-%m-%Y")
-
+        tomorrow = (today + datetime.timedelta(days=1)).strftime("%Y-%m-%d")
 
         if(note.count() == 0):
             note = Notes()
-            note.pub_date = req_date
-            return render(req,'agenda.html', context={"notes":note, "dates":[tomorrow,yesterday],"projects": projects})
+            note.pub_date = today.strftime("%Y-%m-%d")
+            return render(req,'agenda.html', context={"notes":note, "dates":[tomorrow,yesterday,today],"projects": projects})
         else:
-            return render(req,'agenda.html', context={"notes":note[0], "dates":[tomorrow,yesterday],"projects": projects})
+            return render(req,'agenda.html', context={"notes":note[0], "dates":[tomorrow,yesterday,today],"projects": projects})
     
     elif(len(req_project)>0):
         try:
@@ -75,16 +73,40 @@ def GetDate(req):
 def Weekly(req):
     projects = Project.objects.all()
 
-    today = date.today().strftime("%d-%m-%Y")
+    today = date.today().strftime("%Y-%m-%d")
     days_of_the_week = get_week(today)
     print(days_of_the_week)
     return render(req,'weekly.html',context={"days":days_of_the_week,"projects": projects})
 
 def Calendar(req):
+    
+    
     projects = Project.objects.all()
+
 
     return render(req,'calendar.html',context={"projects": projects})
 
+
+def CalendarSource(req):
+    start_date = dateModifier(req.GET.get('start', ''))
+    end_date = dateModifier(req.GET.get('end',''))
+    
+    notes = Notes.objects.filter(pub_date__range=(start_date,end_date))
+    print(len(notes))
+    for k in notes:
+        print(k.notes)
+    print(notes)
+    print(start_date)
+    print(end_date)
+    return HttpResponse(1)
+
+
+
+def dateModifier(datestring):
+    datestring = datestring.split('T')
+    datestring = datestring[0].split('-')
+    datestring = datestring[2] + '/' + datestring[1] + '/' + datestring[0]
+    return datestring
 
 # @ post /update
 def AddProject(req):
@@ -114,31 +136,11 @@ def Settings(req):
 def get_week(dt):
     week_day= datetime.datetime.now().isocalendar()[2]
     start_date= datetime.datetime.now() - datetime.timedelta(days=week_day) + datetime.timedelta(days=1)
-    dates=[str((start_date + datetime.timedelta(days=i)).date().strftime("%d-%m-%Y")) for i in range(7)]
+    dates=[str((start_date + datetime.timedelta(days=i)).date().strftime("%Y-%m-%d")) for i in range(7)]
     day_names=[str((start_date + datetime.timedelta(days=i)).date().strftime("%A")) for i in range(7)]
     return(zip(dates,day_names))
 
-def Generate(req):
-    projects = Project.objects.all()
-    for k in projects:
-        print("asd")
-    buffer = io.BytesIO()
 
-    # Create the PDF object, using the buffer as its "file."
-    p = canvas.Canvas(buffer)
-
-    # Draw things on the PDF. Here's where the PDF generation happens.
-    # See the ReportLab documentation for the full list of functionality.
-    p.drawString(100, 100, "HelHello world.Hello world.Hello world.Hello world.Hello world.Hello world.Hello world.Hello world.lo world.Hello world.Hello world.Hello world.")
-
-    # Close the PDF object cleanly, and we're done.
-    p.showPage()
-    p.save()
-
-    # FileResponse sets the Content-Disposition header so that browsers
-    # present the option to save the file.
-    buffer.seek(0)
-    return FileResponse(buffer, as_attachment=True, filename='hello.pdf')
 
 def DownloadNotes(req):
     data = serializers.serialize('json', Notes.objects.all())

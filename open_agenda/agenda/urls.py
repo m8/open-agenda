@@ -13,6 +13,6 @@ urlpatterns = [
     path(r'add-project/',views.AddProject),
     path(r'delete/',views.Delete),
     path(r'settings/',views.Settings),
-    path(r'generate-report/', views.Generate),
-    path(r'download-notes/',views.DownloadNotes)
+    path(r'download-notes/',views.DownloadNotes),
+    path(r'getEvents/',views.CalendarSource)
 ]

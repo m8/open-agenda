@@ -21,7 +21,7 @@
             <!-- Main component for a primary marketing message or call to action -->
 
             <div class="jumbotron">
-                    <h2>{{ notes.pub_date }} | <span id="day"></span></h2> 
+                    <h2><span id="date"></span> | <span id="day"></span></h2> 
                 <div class="d-flex justify-content-between pb-3">
                     <a id="{{ dates.1 }}" class="btn btn-warning" onclick="changedate(this.id)"><i
                             class="fa fa-arrow-left"></i> Yesterday </a>
@@ -52,7 +52,7 @@
 
         $("#success-alert").hide();
 
-        let current_date = "{{notes.pub_date}}";
+        let current_date = "{{ notes.pub_date | date:"Y-m-d"}}"
 
         var simplemde = new SimpleMDE({
             element: document.getElementById("notes"),
@@ -93,13 +93,12 @@
             return date.toLocaleDateString(locale, { weekday: 'long' });        
         }
         
-        let date1 = '{{ notes.pub_date }}'.split('-');
-        date1 = date1[1]+ '/' + date1[0] + '/' + date1[2];
-        var dateStr = date1;
+        let dateStr = '{{ dates.2 |date:"d-m-Y"}}';
 
         $( document ).ready(function() {
-            var day = getDayName(dateStr, "tr-TR");
-            $("#day").text(day);            
+            var day = getDayName("{{ dates.2 |date:'Y-m-d'}}", "tr-TR");
+            $("#day").text(day);  
+            $("#date").text(dateStr);
         });
 
 
