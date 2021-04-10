@@ -7,7 +7,6 @@ from django.core.exceptions import ObjectDoesNotExist
 
 from datetime import date
 import datetime
-from reportlab.pdfgen import canvas
 
 from django.core import serializers
 import json
@@ -20,16 +19,15 @@ def index(req):
 
 # @ post /update
 def updateAgenda(req):
-    date = datetime.datetime.strptime(req.POST.get('date',''), '%Y-%m-%d')
     notes = req.POST.get('notes','')
     project_id = req.POST.get('project_id','')
-    print("update request date:" , date)
     if(len(project_id)>0):
         project = Project.objects.get(id=project_id)
         project.notes = notes
         project.save()
 
     else:
+        date = datetime.datetime.strptime(req.POST.get('date',''), '%Y-%m-%d')
         Notes.objects.update_or_create(
             pub_date = date,
             defaults={'notes': notes, 'pub_date': date},
@@ -100,9 +98,17 @@ def CalendarSource(req):
         for l in k.notes.splitlines():
             if(l.startswith('!!')):
                 response_data = {}
-                response_data['title'] = l[2:]
+                response_data['title'] = l[3:]
                 response_data['start'] = k.pub_date.strftime("%Y-%m-%d")
                 response_data['end'] = k.pub_date.strftime("%Y-%m-%d")
+                if(l[2] == 'R'):
+                    response_data['color'] = '#eb4034'
+                elif(l[2] == 'G'):
+                    response_data['color'] = '#32ba20' 
+                else:
+                    response_data['color'] = '#3788D8'
+
+
                 response_obj.append(response_data)
 
     print(response_obj)
