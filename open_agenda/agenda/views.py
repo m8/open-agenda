@@ -8,6 +8,8 @@ from django.core.exceptions import ObjectDoesNotExist
 from datetime import date
 import datetime
 
+import icalendar
+
 from django.core import serializers
 import json
 # UTC Timezone + 3
@@ -149,12 +151,46 @@ def Settings(req):
     return render(req,'settings.html',context={})
 
 
+def importCalendar(req):
+    ics_file = req.POST.get('ics', '')
+
+    gcal = icalendar.Calendar.from_ical(ics_file)
+    for component in gcal.walk():
+        if component.name == "VEVENT":
+            sum = (component.get('summary'))
+            asd = (component.get('dtend')).dt
+            print(asd)
+            project = Notes.objects.get(pub_date=asd)
+            if(project):
+                if(sum in project.notes):
+                    print("exits")
+                else:
+                    notw, cr = Notes.objects.get_or_create(
+                        pub_date = asd
+                    )
+                    notw.notes = "!!B " + sum + " \n" + notw.notes
+                    notw.save()
+            else:
+                notw, cr = Notes.objects.get_or_create(
+                    pub_date = asd
+                )
+                notw.notes = "!!B " + sum + " \n" + notw.notes
+                notw.save()
+            # print(project.notes)
+            # project.notes = (sum + "\n") + project.notes
+            # print(asd,sum)
+
+    return render(req,'settings.html',context={})
+
+
 def get_week(dt):
     week_day= datetime.datetime.now().isocalendar()[2]
     start_date= datetime.datetime.now() - datetime.timedelta(days=week_day) + datetime.timedelta(days=1)
     dates=[str((start_date + datetime.timedelta(days=i)).date().strftime("%Y-%m-%d")) for i in range(7)]
     day_names=[str((start_date + datetime.timedelta(days=i)).date().strftime("%A")) for i in range(7)]
     return(zip(dates,day_names))
+
+
 
 
 
